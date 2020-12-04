@@ -17,3 +17,11 @@ You can either use token, or either use mail and password. I personnaly recomman
   
 Here you have included your GitHub account in PyCharm. Now it's time to clone the project ...
 
+### To Clone the Project
+
+- Simply go to PyCharm, in the top bar menu : VCS > Get from Version Control > Past this URL : https://github.com/tradingstrategyanalyserproject/Python_Pricing/
+- Put and empty directory where to clone this project
+
+
+Start working on it 
+
