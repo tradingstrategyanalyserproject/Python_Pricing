@@ -76,7 +76,7 @@ class VanillaOption:
 from flask import Flask
 app = Flask(__name__)
 
-@app.route('/price/<type>/<S>/<K>/<T>/<r>/<sigma>')
+@app.route('/price/<type>/<float:S>/<float:K>/<float:T>/<float:r>/<float:sigma>')
 def answer(type, S, K, T, r, sigma):
     option = VanillaOption(type, S, K, T, r, sigma)
     jsoption = {"type_option": option.option_type, "payoff": option.euro_payoff(), "delta: ": option.delta(), "gamma: ": option.gamma(), "vega: ": option.vega(), "theta: ": option.theta(), "rho: ": option.rho()}
