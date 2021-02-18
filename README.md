@@ -26,3 +26,16 @@ Here you have included your GitHub account in PyCharm. Now it's time to clone th
 
 Start working on it 
 
+##  REQUIREMENTS :
+PACKAGES : numpy, scipy, flask
+TO RUN : OPEN A COMMAND PROMPT
+WRITE "cd (path where the file is)"
+"set FLASK_APP=server.py"
+"python -m flask run"
+SERVER SHOULD BE RUNNING
+
+YOU CAN CHECK THE JSON OUTPUT IN WEB BROWSER AT http://127.0.0.1:5000/price/type/spot/strike/time/rate/vol (replace all values from type to vol with pricing values)
+example pricing : http://127.0.0.1:5000/price/call/100.0/100.0/12.0/5.0/30.0
+example strike variable : http://127.0.0.1:5000/variable/strike/100.0/150.0/call/100.0/12.0/5.0/30.0
+example spot variable : http://127.0.0.1:5000/variable/strike/100.0/150.0/call/100.0/12.0/5.0/30.0
+example sigma variable : http://127.0.0.1:5000/variable/sigma/100.0/150.0/call/100.0/100.0/12.0/5.0

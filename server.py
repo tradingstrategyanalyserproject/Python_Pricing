@@ -2,17 +2,6 @@ import numpy as np
 from scipy.stats import norm
 from flask import jsonify
 
-#  REQUIREMENTS :
-#  PACKAGES : numpy, scipy, flask
-#  TO RUN : OPEN A COMMAND PROMPT
-#  WRITE "cd (path where the file is)"
-# "set FLASK_APP=server.py"
-# "python -m flask run"
-# SERVER SHOULD BE RUNNING
-#
-# YOU CAN CHECK THE JSON OUTPUT IN WEB BROWSER AT http://127.0.0.1:5000/price/type/spot/strike/time/rate/vol
-# (replace all values from type to vol with pricing values)
-# example : http://127.0.0.1:5000/price/call/100/100/12/5/30
 
 class VanillaOption:
 
@@ -72,12 +61,46 @@ class VanillaOption:
             return -self.T * self.K * np.exp(-self.r * self.T) * norm.cdf(-self.d2())
 
 
-
+#Setting up server
 from flask import Flask
 app = Flask(__name__)
 
+# Calculus of one price with all parameters defined
 @app.route('/price/<type>/<float:S>/<float:K>/<float:T>/<float:r>/<float:sigma>')
 def answer(type, S, K, T, r, sigma):
     option = VanillaOption(type, S, K, T, r, sigma)
     jsoption = {"type_option": option.option_type, "payoff": option.euro_payoff(), "delta: ": option.delta(), "gamma: ": option.gamma(), "vega: ": option.vega(), "theta: ": option.theta(), "rho: ": option.rho()}
     return jsonify(jsoption)
+
+# Calculus of several possible values of greeks / price, depending on strike price variation
+@app.route('/variable/strike/<float:min>/<float:max>/<type>/<float:S>/<float:T>/<float:r>/<float:sigma>')
+def answerstrike(type, S, T, r, sigma, min, max):
+    x = np.linspace(min, max, 500)
+    myanswer = []
+    for i in range(len(x)):
+        option = VanillaOption(type, S, x[i], T, r, sigma)
+        jsoption = {"type_option": option.option_type, "payoff": option.euro_payoff(), "delta: ": option.delta(), "gamma: ": option.gamma(), "vega: ": option.vega(), "theta: ": option.theta(), "rho: ": option.rho()}
+        myanswer.append(jsoption)
+    return jsonify(myanswer)
+
+# Calculus of several possible values of greeks / price, depending on spot price variation
+@app.route('/variable/spot/<float:min>/<float:max>/<type>/<float:K>/<float:T>/<float:r>/<float:sigma>')
+def answerspot(type, K, T, r, sigma, min, max):
+    x = np.linspace(min, max, 500)
+    myanswer = []
+    for i in range(len(x)):
+        option = VanillaOption(type, x[i], K, T, r, sigma)
+        jsoption = {"type_option": option.option_type, "payoff": option.euro_payoff(), "delta: ": option.delta(), "gamma: ": option.gamma(), "vega: ": option.vega(), "theta: ": option.theta(), "rho: ": option.rho()}
+        myanswer.append(jsoption)
+    return jsonify(myanswer)
+
+# Calculus of several possible values of greeks / price, depending on sigma variation
+@app.route('/variable/sigma/<float:min>/<float:max>/<type>/<float:S>/<float:K>/<float:T>/<float:r>')
+def answersigma(type, S, K, T, r, min, max):
+    x = np.linspace(min, max, 500)
+    myanswer = []
+    for i in range(len(x)):
+        option = VanillaOption(type, S, K, T, r, x[i])
+        jsoption = {"type_option": option.option_type, "payoff": option.euro_payoff(), "delta: ": option.delta(), "gamma: ": option.gamma(), "vega: ": option.vega(), "theta: ": option.theta(), "rho: ": option.rho()}
+        myanswer.append(jsoption)
+    return jsonify(myanswer)
