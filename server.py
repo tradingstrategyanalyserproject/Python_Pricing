@@ -85,7 +85,7 @@ def answer(type, S, K, T, r, sigma):
     return jsonify(jsoption)
 
 # Calculus of several possible values of greeks / price, depending on strike price variation
-@app.route('/variable/strike/<float:min>/<float:max>/<type>/<float:S>/<float:T>/<float:r>/<float:sigma>')
+@app.route('/variable/strike/<float:min>/<float:max>/<type>/<float:T>/<float:r>/<float:S>/<float:sigma>')
 def answerstrike(type, S, T, r, sigma, min, max):
     x = np.linspace(min, max, 500)
     myanswer = []
@@ -96,7 +96,7 @@ def answerstrike(type, S, T, r, sigma, min, max):
     return jsonify(myanswer)
 
 # Calculus of several possible values of greeks / price, depending on spot price variation
-@app.route('/variable/spot/<float:min>/<float:max>/<type>/<float:K>/<float:T>/<float:r>/<float:sigma>')
+@app.route('/variable/spot/<float:min>/<float:max>/<type>/<float:T>/<float:r>/<float:K>/<float:sigma>')
 def answerspot(type, K, T, r, sigma, min, max):
     x = np.linspace(min, max, 500)
     myanswer = []
@@ -107,7 +107,7 @@ def answerspot(type, K, T, r, sigma, min, max):
     return jsonify(myanswer)
 
 # Calculus of several possible values of greeks / price, depending on sigma variation
-@app.route('/variable/sigma/<float:min>/<float:max>/<type>/<float:S>/<float:K>/<float:T>/<float:r>')
+@app.route('/variable/sigma/<float:min>/<float:max>/<type>/<float:T>/<float:r>/<float:S>/<float:K>')
 def answersigma(type, S, K, T, r, min, max):
     x = np.linspace(min, max, 500)
     myanswer = []
