@@ -87,7 +87,7 @@ def answer(type, S, K, T, r, sigma):
 # Calculus of several possible values of greeks / price, depending on strike price variation
 @app.route('/variable/strike/<float:min>/<float:max>/<type>/<float:T>/<float:r>/<float:S>/<float:sigma>')
 def answerstrike(type, S, T, r, sigma, min, max):
-    x = np.linspace(min, max, 500)
+    x = np.linspace(min, max, 100)
     myanswer = []
     for i in range(len(x)):
         option = VanillaOption(type, S, x[i], T, r, sigma)
@@ -98,7 +98,7 @@ def answerstrike(type, S, T, r, sigma, min, max):
 # Calculus of several possible values of greeks / price, depending on spot price variation
 @app.route('/variable/spot/<float:min>/<float:max>/<type>/<float:T>/<float:r>/<float:K>/<float:sigma>')
 def answerspot(type, K, T, r, sigma, min, max):
-    x = np.linspace(min, max, 500)
+    x = np.linspace(min, max, 100)
     myanswer = []
     for i in range(len(x)):
         option = VanillaOption(type, x[i], K, T, r, sigma)
@@ -109,7 +109,7 @@ def answerspot(type, K, T, r, sigma, min, max):
 # Calculus of several possible values of greeks / price, depending on sigma variation
 @app.route('/variable/sigma/<float:min>/<float:max>/<type>/<float:T>/<float:r>/<float:S>/<float:K>')
 def answersigma(type, S, K, T, r, min, max):
-    x = np.linspace(min, max, 500)
+    x = np.linspace(min, max, 100)
     myanswer = []
     for i in range(len(x)):
         option = VanillaOption(type, S, K, T, r, x[i])
